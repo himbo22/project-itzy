@@ -1,5 +1,51 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+my-nextjs-app/
+├── public/                     # Tài nguyên tĩnh (hình ảnh, favicon, v.v.)
+│   ├── images/                 # Thư mục chứa hình ảnh
+│   └── favicon.ico             # Biểu tượng favicon
+├── src/                        # Thư mục mã nguồn chính
+│   ├── app/                    # Cấu trúc thư mục cho App Router của Next.js
+│   │   ├── layout.tsx          # Layout chính của ứng dụng
+│   │   ├── page.tsx            # Trang chủ (Home)
+│   │   ├── signin/             # Trang đăng nhập
+│   │   │   └── page.tsx
+│   │   ├── dashboard/          # Trang dashboard (sau khi đăng nhập)
+│   │   │   └── page.tsx
+│   │   └── globals.css         # CSS toàn cục
+│   ├── components/             # Các thành phần giao diện (UI components)
+│   │   ├── auth/               # Components liên quan đến xác thực
+│   │   │   ├── LoginForm.tsx   # Form đăng nhập
+│   │   │   └── LogoutButton.tsx # Nút đăng xuất
+│   │   ├── ui/                 # Các UI components tái sử dụng
+│   │   │   ├── Button.tsx      # Component nút
+│   │   │   └── Navbar.tsx      # Thanh điều hướng
+│   ├── hooks/                  # Custom hooks
+│   │   └── useAuth.ts          # Hook để sử dụng auth store
+│   ├── lib/                    # Thư viện và tiện ích
+│   │   ├── api/                # Hàm gọi API bên ngoài
+│   │   │   ├── auth.ts         # API calls cho xác thực (login, logout)
+│   │   │   └── user.ts         # API calls cho thông tin người dùng
+│   │   └── axios.ts            # Cấu hình Axios hoặc fetch client
+│   ├── stores/                 # Zustand stores
+│   │   └── authStore.ts        # Store quản lý xác thực (code bạn cung cấp)
+│   ├── types/                  # Định nghĩa TypeScript types/interfaces
+│   │   ├── auth.ts             # Interface cho User, AuthState 
+│   │   └── api.ts              # Interface cho API responses
+│   ├── utils/                  # Các hàm tiện ích
+│   │   └── helpers.ts          # Các hàm hỗ trợ (format, validation, v.v.)
+│   └── styles/                 # CSS modules hoặc Tailwind config
+│       ├── tailwind.css        # Nếu dùng Tailwind CSS
+│       └── components/         # CSS modules cho components
+├── .env                        # Biến môi trường (API_URL, v.v.)
+├── .env.local                  # Biến môi trường local
+├── .gitignore                  # Danh sách các file/thư mục bỏ qua
+├── next.config.mjs             # Cấu hình Next.js
+├── tsconfig.json               # Cấu hình TypeScript
+├── package.json                # Quản lý dependencies
+├── README.md                   # Tài liệu dự án
+└── tailwind.config.js          # Cấu hình Tailwind CSS (nếu sử dụng)
+
 ## Getting Started
 
 First, run the development server:
