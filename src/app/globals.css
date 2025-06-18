@@ -4,6 +4,16 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-dalla: var(--dalla);
+  --color-icy: var(--icy);
+  --color-wannabe: var(--wannabe);
+  --color-notshy: var(--notshy);
+  --color-mafia: var(--mafia);
+  --color-loco: var(--loco);
+  --color-sneakers: var(--sneakers);
+  --color-cheshire: var(--cheshire);
+  --color-cake: var(--cake);
+  --color-iconground: var(--iconground);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -44,6 +54,16 @@
 }
 
 :root {
+  --dalla: oklch(0.74 0.26 341.65); 
+  --icy: oklch(0.82 0.27 226.10);
+  --wannabe: oklch(0.72 0.26 293.10);
+  --notshy: oklch(0.75 0.27 57.10);
+  --mafia: oklch(0.20 0.01 270.00);
+  --loco: oklch(0.78 0.21 13.00);
+  --sneakers: oklch(0.89 0.30 123.60);
+  --cheshire: oklch(0.53 0.23 293.80);
+  --cake: oklch(0.84 0.15 22.50);
+  --iconground: oklch(0.15 0 0);
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -62,6 +82,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
+  --iconground: oklch(0.63 0.25 349.57);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -83,6 +104,7 @@
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
+  --iconground: oklch(0.63 0.25 349.57);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
@@ -119,4 +141,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+html, body{
+  height: 100%;
 }
