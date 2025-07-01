@@ -1,23 +1,23 @@
-# add coupon
+# add voucher
 ```uml
 @startuml
 actor Admin
 participant "Admin Interface" as UI
-participant "CouponController" as Controller
-participant "CouponService" as Service
+participant "VoucherController" as Controller
+participant "VoucherService" as Service
 database "Database" as Repository
 
-== Create Coupon ==
-Admin -> UI : Enter new coupon info
-UI -> Controller : Send add coupon request (data)
+== Create Voucher ==
+Admin -> UI : Enter new voucher info
+UI -> Controller : Send add voucher request (data)
 Controller -> Service : Validate and process data
 
 Service -> Service : Check required fields (e.g. code, discount, dates)
-Service -> Repository : Check if coupon code already exists
+Service -> Repository : Check if voucher code already exists
 Repository -> Service : Return check result
 
 alt "Valid and not duplicated"
-    Service -> Repository : Save new coupon to DB\n(table: Coupon)
+    Service -> Repository : Save new voucher to DB\n(table: Voucher)
     Repository -> Service : Confirm saved
     Service -> Controller : Return success
 else "Invalid data or duplicate code"
@@ -29,27 +29,27 @@ UI -> Admin : Display message
 @enduml
 ```
 
-# update coupon
+# update voucher
 ```uml
 @startuml
 actor Admin
 participant "Admin Interface" as UI
-participant "CouponController" as Controller
-participant "CouponService" as Service
+participant "VoucherController" as Controller
+participant "VoucherService" as Service
 database "Database" as Repository
 
-== Start updating coupon ==
-Admin -> UI : Enter updated coupon info
-UI -> Controller : Send update coupon request (data)
+== Start updating voucher ==
+Admin -> UI : Enter updated voucher info
+UI -> Controller : Send update voucher request (data)
 Controller -> Service : Send data to Service for processing
 Service -> Service : Validate update data
 alt "Valid"
-Service -> Repository : Check if coupon exists
-Repository -> Service : Return coupon found
-alt "Coupon exists"
-Service -> Repository : Update coupon in database\n(table: Coupon)
+Service -> Repository : Check if voucher exists
+Repository -> Service : Return voucher found
+alt "Voucher exists"
+Service -> Repository : Update voucher in database\n(table: Voucher)
 Repository -> Controller : Confirm update success
-else "Coupon not found"
+else "Voucher not found"
 Repository -> Controller : Update failed (not found)
 end
 
@@ -61,27 +61,27 @@ UI -> Admin : Display result
 @enduml
 ```
 
-# delete coupon
+# delete voucher
 ```uml
 @startuml
 actor Admin
 participant "Admin Interface" as UI
-participant "CouponController" as Controller
-participant "CouponService" as Service
+participant "VoucherController" as Controller
+participant "VoucherService" as Service
 database "Database" as Repository
 
-== Start deleting coupon ==
-Admin -> UI : Choose coupon to delete
-UI -> Controller : Send delete request (coupon ID)
+== Start deleting voucher ==
+Admin -> UI : Choose voucher to delete
+UI -> Controller : Send delete request (voucher ID)
 Controller -> Service : Request delete processing
-Service -> Repository : Check if coupon exists
-Repository -> Service : Coupon found?
+Service -> Repository : Check if voucher exists
+Repository -> Service : Voucher found?
 
-alt "Coupon exists"
-    Service -> Repository : Delete coupon from database
+alt "Voucher exists"
+    Service -> Repository : Delete voucher from database
     Repository -> Service : Confirm deletion
     Service -> Controller : Return success
-else "Coupon not found"
+else "Voucher not found"
     Service -> Controller : Return error: not found
 end
 Controller -> UI : Return result message
