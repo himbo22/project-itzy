@@ -91,7 +91,7 @@ const HomeCarousel = () => {
       }}
     >
       {/* Main Carousel Container */}
-      <div className="relative h-60 sm:h-80 md:h-96 lg:h-[500px] overflow-hidden rounded-xl md:rounded-2xl bg-gray-900">
+      <div className="relative h-60 sm:h-80 md:h-96 lg:h-[500px] overflow-hidden rounded-xl md:rounded-2xl bg-gray-900 mt-20">
         {/* Slides */}
         <div
           className="flex transition-transform duration-500 ease-in-out h-full"

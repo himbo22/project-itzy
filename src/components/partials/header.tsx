@@ -2,13 +2,11 @@
 
 import HomeButton from '@/components/home/HomeButton'
 import SearchOverlay from '@/components/partials/search'
-import { Search } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { IoIosSearch } from 'react-icons/io'
-import { IoIosCart } from 'react-icons/io'
 import { IoBagOutline } from 'react-icons/io5'
 
 interface props {
@@ -28,7 +26,7 @@ export function Header({ section, onSectionChange }: props) {
   }
 
   return (
-    <div className="flex justify-between">
+    <header className="flex justify-between bg-white w-full h-15 fixed shadow top-0 left-0 right-0 z-50">
       <div className="flex w-1/2 justify-start items-center">
         <Link href={'/'}>
           <Image src="/images/itzy.png" alt="logo" width={100} height={60} />
@@ -78,6 +76,6 @@ export function Header({ section, onSectionChange }: props) {
         </Link>
       </div>
       <SearchOverlay isOpen={isSearchOpen} onClose={closeSearchBox} />
-    </div>
+    </header>
   )
 }
