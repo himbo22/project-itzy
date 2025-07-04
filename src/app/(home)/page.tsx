@@ -3,6 +3,7 @@
 import ArtistGrid from '@/components/home/ArtistGrid'
 import HomeCart from '@/components/home/HomeCard'
 import HomeCarousel from '@/components/home/HomeCarousel'
+import HomeShop from '@/components/home/Shop'
 import Footer from '@/components/partials/footer'
 import { Header } from '@/components/partials/header'
 import { Button } from '@/components/ui/button'
@@ -13,7 +14,7 @@ export default function Home() {
   const [section, setSection] = useState<'home' | 'shop'>('home')
 
   return (
-    <div className="">
+    <div>
       <Header section={section} onSectionChange={setSection} />
       {section === 'home' ? (
         <div>
@@ -22,7 +23,9 @@ export default function Home() {
           <HomeCart />
         </div>
       ) : (
-        <div>shop</div>
+        <div>
+          <HomeShop />
+        </div>
       )}
       <Footer />
     </div>
