@@ -1,8 +1,9 @@
 'use client'
 
 import ArtistGrid from '@/components/home/ArtistGrid'
+import HomeCart from '@/components/home/HomeCard'
 import HomeCarousel from '@/components/home/HomeCarousel'
-import { Footer } from '@/components/partials/footer'
+import Footer from '@/components/partials/footer'
 import { Header } from '@/components/partials/header'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -18,6 +19,7 @@ export default function Home() {
         <div>
           <HomeCarousel />
           <ArtistGrid />
+          <HomeCart />
         </div>
       ) : (
         <div>shop</div>
