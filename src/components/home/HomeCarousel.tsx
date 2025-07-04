@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 const HomeCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
+  const [hoveredSlide, setHoveredSlide] = useState<number | null>(null)
 
   // Sample carousel data - replace with your actual data
   const slides = [
@@ -64,7 +66,6 @@ const HomeCarousel = () => {
   const goToSlide = (index: number) => {
     setCurrentSlide(index)
     setIsAutoPlaying(false)
-    // Resume auto-play after 10 seconds
     setTimeout(() => setIsAutoPlaying(true), 10000)
   }
 
@@ -81,7 +82,14 @@ const HomeCarousel = () => {
   }
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto mt-6">
+    <div
+      className="relative w-full max-w-6xl mx-auto mt-6"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        setHoveredSlide(null)
+      }}
+    >
       {/* Main Carousel Container */}
       <div className="relative h-60 sm:h-80 md:h-96 lg:h-[500px] overflow-hidden rounded-xl md:rounded-2xl bg-gray-900">
         {/* Slides */}
@@ -93,11 +101,16 @@ const HomeCarousel = () => {
             <Link
               href={'/'}
               key={slide.id}
-              className="min-w-full h-full relative"
+              className={`min-w-full h-full relative group`}
+              onMouseEnter={() => setHoveredSlide(index)}
+              onMouseLeave={() => setHoveredSlide(null)}
+              tabIndex={0}
             >
               {/* Background Image */}
               <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-300 ${
+                  hoveredSlide === index ? 'scale-105 z-20' : 'scale-100'
+                }`}
                 style={{ backgroundImage: `url(${slide.image})` }}
               >
                 {/* Gradient Overlay */}
@@ -105,7 +118,7 @@ const HomeCarousel = () => {
               </div>
 
               {/* Content */}
-              <div className="relative z-10 h-full flex items-center">
+              <div className="relative z-30 h-full flex items-center">
                 <div className="px-4 sm:px-8 md:px-16 max-w-xs sm:max-w-md md:max-w-2xl">
                   {/* Tag */}
                   <div className="mb-2 sm:mb-4">
@@ -141,20 +154,24 @@ const HomeCarousel = () => {
           ))}
         </div>
 
-        {/* Navigation Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-1 sm:p-2 rounded-full hover:bg-white/30 transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
+        {/* Navigation Arrows - only show when hovered */}
+        {isHovered && (
+          <>
+            <button
+              onClick={prevSlide}
+              className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 z-40 bg-white/20 backdrop-blur-sm text-white p-1 sm:p-2 rounded-full hover:bg-white/30 transition-colors"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
 
-        <button
-          onClick={nextSlide}
-          className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm text-white p-1 sm:p-2 rounded-full hover:bg-white/30 transition-colors"
-        >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 z-40 bg-white/20 backdrop-blur-sm text-white p-1 sm:p-2 rounded-full hover:bg-white/30 transition-colors"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+          </>
+        )}
       </div>
 
       {/* Dots Indicator */}
