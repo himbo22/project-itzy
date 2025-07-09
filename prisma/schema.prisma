@@ -6,10 +6,170 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String
+  user User[]
+}
+
+model User {
+  id             String      @id @default(uuid())
+  email          String      @unique
+  username       String      @unique
+  password       String
+  avatar         String?
+  isActive       Boolean
+  roleId         Int
+  artistFollowed Follow[]
+  comment        Community[]
+  question       Ask[]
+  review         Review[]
+  cart           Cart[]
+  orders         Order[]
+  Role           Role        @relation(fields: [roleId], references: [id])
+}
+
+model Cart {
+  User      User    @relation(fields: [userId], references: [id])
+  userId    String
+  Product   Product @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int     @default(1)
+
+  @@id([userId, productId])
+}
+
+model Order {
+  id               String         @id @default(uuid())
+  deliveryInfo     Json
+  orderDate        DateTime       @default(now())
+  status           String // succeed, returned, canceled
+  User             User           @relation(fields: [userId], references: [id])
+  userId           String
+  orderItem        OrderItem[]
+  shipping         ShippingMethod @relation(fields: [shippingMethodId], references: [id])
+  shippingMethodId String
+  payment          PaymentMethod  @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId  String
+}
+
+model ShippingMethod {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  baseFee     Decimal
+  isActive    Boolean
+  Order       Order[]
+}
+
+model PaymentMethod {
+  id          String  @id @default(uuid())
+  code        String  @unique
+  name        String
+  description String?
+  isActive    Boolean
+  Order       Order[]
+}
+
+model OrderItem {
+  Product   Product @relation(fields: [productId], references: [id])
+  productId String
+  Order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String
+  quantity  Int     @default(1)
+
+  @@id([productId, orderId])
+}
+
+// manuel check discount 0-100
+model Product {
+  id         String      @id @default(uuid())
+  name       String      @unique
+  oldPrice   Decimal
+  newPrice   Decimal
+  image      String
+  detail     String      @db.Text
+  quantity   Int         @default(1)
+  discount   Int?
+  isDeleted  Boolean
+  categoryId String
+  artistId   String
+  Artist     Artist      @relation(fields: [artistId], references: [id])
+  Category   Category    @relation(fields: [categoryId], references: [id])
+  question   Ask[]
+  review     Review[]
+  cart       Cart[]
+  orderItem  OrderItem[]
+}
+
+model Category {
+  id      String    @id @default(uuid())
+  name    String    @unique
+  product Product[]
+}
+
+model Artist {
+  id           String      @id @default(uuid())
+  name         String      @unique
+  image        String
+  members      Json
+  company      String
+  product      Product[]
+  userFollowed Follow[]
+  comment      Community[]
+}
+
+model Follow {
+  User     User   @relation(fields: [userId], references: [id])
+  userId   String
+  Artist   Artist @relation(fields: [artistId], references: [id])
+  artistId String
+
+  @@id([userId, artistId])
+}
+
+model Community {
+  id       String   @id @default(uuid())
+  content  String
+  sendDate DateTime @default(now())
+  User     User     @relation(fields: [userId], references: [id])
+  userId   String
+  Artist   Artist   @relation(fields: [artistId], references: [id])
+  artistId String
+}
+
+model Ask {
+  id        Int      @id @default(autoincrement())
+  question  String
+  answer    String?
+  askDate   DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String
+  Product   Product  @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  content   String
+  image     String?
+  sendDate  DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String
+  Product   Product  @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Feedback {
+  id       String   @id @default(uuid())
+  content  String
+  email    String
+  sendDate DateTime @default(now())
 }
