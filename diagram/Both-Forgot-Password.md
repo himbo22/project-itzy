@@ -27,7 +27,7 @@ else
     Service -> Email : Send OTP to user's email
 
     Service -> Controller : Return success
-    Controller -> UI : Prompt for OTP and new password
+    Controller -> UI : Show result
 end
 
 == Step 2: Submit OTP & New Password ==
@@ -45,11 +45,10 @@ alt "OTP invalid or expired"
 else
     Service -> Database : Hash and update password \n(table: Users)
     Database -> Service : Confirm update
-    Service -> Cache : Invalidate OTP entry
-
     Service -> Controller : Return success
     Controller -> UI : Show reset success
     UI -> User : Display confirmation
 end
 @enduml
 ```
+

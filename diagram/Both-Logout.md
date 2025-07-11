@@ -1,21 +1,14 @@
 # logout
 ```uml
 @startuml
-actor User
-participant "Next.js UI" as UI
-participant "AuthController" as Controller
-participant "AuthService" as Service
+actor "Admin/User"
+participant "Browser (FE)" as FE
+participant "Next.js API (BE)" as BE
 
 == Logout ==
-User -> UI : Click "Logout"
-UI -> Controller : Send logout request (with token)
-Controller -> Service : logout(token)
 
-== Step 1: Stateless Logout ==
-Service -> Service : [Optional] Add token to blacklist (if used)
-
-Service -> Controller : Return success
-Controller -> UI : Remove token from client storage
-UI -> User : Redirect to login screen
+"Admin/User" -> FE : Click Logout
+FE -> BE : POST /api/logout
+BE -> FE : Set-Cookie: accessToken=deleted
 @enduml
 ```
