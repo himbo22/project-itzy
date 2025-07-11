@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
+import { useRouter } from 'next/navigation'
 interface props {
   isOpen: boolean
   onClose: () => void
@@ -8,6 +8,7 @@ interface props {
 
 const SearchOverlay = ({ isOpen, onClose }: props) => {
   const [searchQuery, setSearchQuery] = useState('')
+  const router = useRouter()
 
   // Mock recommended searches data
   const recommendedSearches = [
@@ -63,6 +64,10 @@ const SearchOverlay = ({ isOpen, onClose }: props) => {
     }
   }, [isOpen])
 
+  function handleSearch() {
+    router.push(`/search?s=${searchQuery}`)
+  }
+
   // Don't render if not open
   if (!isOpen) return null
 
@@ -88,6 +93,11 @@ const SearchOverlay = ({ isOpen, onClose }: props) => {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch()
+                }
+              }}
               type="text"
               placeholder="Enter a keyword"
               value={searchQuery}
