@@ -1,19 +1,30 @@
 import 'server-only'
 import jwt from 'jsonwebtoken'
-import { SignJWT, jwtVerify } from 'jose'
+import { cookies } from 'next/headers'
 
-export function signAccessToken(payload: object) {
-  return jwt.sign(payload, process.env.ACCESS_SECRET!, { expiresIn: '1h' })
+export type JwtPayload = {
+  id: string
+  email: string
+  role: string
 }
 
-export function signRefreshToken(payload: object) {
-  return jwt.sign(payload, process.env.REFRESH_SECRET!, { expiresIn: '36d' })
+export function signToken(payload: JwtPayload) {
+  return jwt.sign(payload, process.env.ACCESS_SECRET!, {
+    expiresIn: '36d',
+  })
 }
 
-export function verifyAccessToken(token: string) {
-  return jwt.verify(token, process.env.ACCESS_SECRET!)
+export function verifyToken(token: string): JwtPayload | null {
+  try {
+    return jwt.verify(token, process.env.ACCESS_SECRET!) as JwtPayload
+  } catch (err) {
+    console.log(err)
+    return null
+  }
 }
 
-export function verifyRefreshToken(token: string) {
-  return jwt.verify(token, process.env.REFRESH_SECRET!)
+export async function getTokenFromCookie(): Promise<string | null> {
+  const cookieStore = await cookies() // 👈 cần await
+  const token = cookieStore.get('authToken')?.value
+  return token || null
 }
