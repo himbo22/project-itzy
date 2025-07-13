@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { cookies } from 'next/headers'
+import { JwtPayload, signToken } from '@/libs/jwt-verify'
 
 export async function POST(request: NextRequest) {
   try {
@@ -51,19 +52,21 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       )
     }
-    const cookieStore = await cookies()
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.Role.name },
-      process.env.ACCESS_SECRET as string,
-      { expiresIn: '1h' }
-    )
 
-    // cookieStore.set({
-    //   name: 'token',
-    //   value: token,
-    //   httpOnly: true,
-    //   secure: true,
-    // })
+    const cookieStore = await cookies()
+    const payload: JwtPayload = {
+      id: user.id,
+      email: user.email,
+      role: user.Role.name,
+    }
+    const token = signToken(payload)
+
+    cookieStore.set({
+      name: 'authToken',
+      value: token,
+      httpOnly: true,
+      secure: true,
+    })
 
     const response: ApiResponse<string> = {
       data: token,

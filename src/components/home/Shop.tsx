@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
 
-const HomeShop = () => {
+interface props {
+  headerText: string
+  attribute?: string
+}
+
+export default function Shop({ headerText, attribute }: props) {
   const [activeTab, setActiveTab] = useState('All')
   const [currentPage, setCurrentPage] = useState(1)
   const productsPerPage = 16
@@ -205,10 +210,10 @@ const HomeShop = () => {
   const currentProducts = products.slice(startIndex, endIndex)
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 mt-10">
+    <div className={`max-w-7xl mx-auto ${attribute ?? ''}`}>
       {/* Header */}
       <div className="flex items-center gap-2 mb-8">
-        <h2 className="text-2xl font-bold text-gray-900">ITZY's products</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{headerText}</h2>
         <Star className="w-6 h-6 text-yellow-400 fill-current" />
       </div>
 
@@ -367,5 +372,3 @@ const HomeShop = () => {
     </div>
   )
 }
-
-export default HomeShop

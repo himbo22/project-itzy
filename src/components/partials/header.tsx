@@ -10,8 +10,8 @@ import { IoIosSearch } from 'react-icons/io'
 import { IoBagOutline } from 'react-icons/io5'
 
 interface props {
-  section: 'home' | 'shop'
-  onSectionChange: (section: 'home' | 'shop') => void
+  section?: 'home' | 'shop'
+  onSectionChange?: (section: 'home' | 'shop') => void
 }
 
 export function Header({ section, onSectionChange }: props) {
@@ -31,16 +31,20 @@ export function Header({ section, onSectionChange }: props) {
         <Link href={'/'}>
           <Image src="/images/itzy.png" alt="logo" width={100} height={60} />
         </Link>
-        <HomeButton
-          content="Home"
-          onClick={() => onSectionChange('home')}
-          isSelected={section === 'home'}
-        />
-        <HomeButton
-          content="Shop"
-          onClick={() => onSectionChange('shop')}
-          isSelected={section === 'shop'}
-        />
+        {section ? (
+          <div className="flex">
+            <HomeButton
+              content="Home"
+              onClick={() => onSectionChange!('home')}
+              isSelected={section === 'home'}
+            />
+            <HomeButton
+              content="Shop"
+              onClick={() => onSectionChange!('shop')}
+              isSelected={section === 'shop'}
+            />
+          </div>
+        ) : null}
       </div>
       <div className="flex w-1/2 justify-end items-center mx-2 gap-1.5">
         <button

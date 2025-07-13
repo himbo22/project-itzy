@@ -1,141 +1,43 @@
 'use client'
 
+import { ArtistDTO } from '@/types/artist'
+import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft, Search } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const ArtistShowcase = () => {
+async function fetchArtist(): Promise<ArtistDTO[]> {
+  const res = await fetch('http://localhost:3000/api/artists')
+  if (!res.ok) {
+    throw new Error('Failed to fetch posts')
+  }
+  return res.json()
+}
+
+export default function ArtistShowcase() {
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['artists'],
+    queryFn: fetchArtist,
+  })
+  const [filteredData, setFilteredData] = useState(data ?? [])
 
-  const artists = [
-    {
-      id: 1,
-      name: 'NouerA',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-purple-600',
-      textColor: 'text-red-500',
-      logo: 'NouerA',
-    },
-    {
-      id: 2,
-      name: 'BTS',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-white',
-      textColor: 'text-black',
-      logo: 'BTS',
-      isLogo: true,
-    },
-    {
-      id: 3,
-      name: 'USPEER',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-black',
-      textColor: 'text-white',
-      logo: 'USPEER',
-    },
-    {
-      id: 4,
-      name: 'Yoon Sanha',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-cover',
-      isPhoto: true,
-    },
-    {
-      id: 5,
-      name: 'NOWZ',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-orange-500',
-      textColor: 'text-black',
-      logo: 'NOWZ',
-    },
-    {
-      id: 6,
-      name: 'fromis_9',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-white',
-      textColor: 'text-black',
-      logo: 'fromis_9',
-      isScript: true,
-    },
-    {
-      id: 7,
-      name: 'CLOSE YOUR EYES',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-blue-600',
-      textColor: 'text-white',
-      logo: 'CLOSE YOUR EYES',
-    },
-    {
-      id: 8,
-      name: 'WayV',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-black',
-      textColor: 'text-white',
-      logo: 'WayV',
-    },
-    {
-      id: 9,
-      name: 'ONEW',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-black',
-      textColor: 'text-white',
-      logo: 'ONEW',
-    },
-    {
-      id: 10,
-      name: 'STAYC',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-black',
-      textColor: 'text-white',
-      logo: 'STAYC',
-    },
-    {
-      id: 11,
-      name: 'NCT DREAM',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-lime-500',
-      textColor: 'text-white',
-      logo: 'NCT DREAM',
-    },
-    {
-      id: 12,
-      name: 'SHINee',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-blue-900',
-      textColor: 'text-white',
-      logo: 'SHINee',
-    },
-    {
-      id: 13,
-      name: 'SISTG',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-gray-200',
-      textColor: 'text-black',
-      logo: 'SISTG',
-    },
-    {
-      id: 14,
-      name: 'ALLDAY PROJECT',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-black',
-      textColor: 'text-white',
-      logo: 'ALLDAY PROJECT',
-    },
-    {
-      id: 15,
-      name: 'NCT WISH',
-      image: '/api/placeholder/200/200',
-      bgColor: 'bg-white',
-      textColor: 'text-blue-400',
-      logo: 'NCT WISH',
-    },
-  ]
+  useEffect(() => {
+    if (!data) return
 
-  const filteredArtists = artists.filter((artist) =>
-    artist.name.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+    const handler = setTimeout(() => {
+      const lower = searchQuery.toLowerCase()
+      const filtered = data.filter((artist) =>
+        artist.name.toLowerCase().includes(lower)
+      )
+      setFilteredData(filtered)
+    }, 300) // debounce 300ms
+
+    return () => clearTimeout(handler)
+  }, [searchQuery, data])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -167,89 +69,28 @@ const ArtistShowcase = () => {
 
       {/* Artist Grid */}
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-3 gap-8">
-          {filteredArtists.map((artist) => (
+        <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8">
+          {filteredData?.map((artist, key) => (
             <Link
               href={`/artist/${artist.id}`}
-              key={artist.id}
-              className="flex flex-col items-center group cursor-pointer"
+              key={key}
+              className="flex flex-col items-center hover:scale-115 transition-transform duration-200  py-1"
             >
-              <div
-                className={`w-40 h-40 rounded-full flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105 ${artist.bgColor}`}
-              >
-                {artist.isPhoto ? (
-                  <div className="w-full h-full bg-gray-300 rounded-full flex items-center justify-center">
-                    <span className="text-gray-500 text-sm">Photo</span>
-                  </div>
-                ) : artist.isLogo && artist.name === 'BTS' ? (
-                  <div className="text-black text-3xl font-bold">
-                    <div className="flex flex-col items-center">
-                      <div className="w-12 h-8 bg-black"></div>
-                      <div className="text-2xl font-bold mt-1">BTS</div>
-                    </div>
-                  </div>
-                ) : artist.isScript ? (
-                  <div
-                    className={`${artist.textColor} text-xl font-bold italic`}
-                  >
-                    {artist.logo}
-                  </div>
-                ) : artist.name === 'CLOSE YOUR EYES' ? (
-                  <div className="text-white text-center">
-                    <div className="text-lg font-bold">CLOSE</div>
-                    <div className="text-lg font-bold">YOUR</div>
-                    <div className="text-lg font-bold">EYES</div>
-                    <div className="text-yellow-400 text-xs mt-1">★ ★ ★</div>
-                  </div>
-                ) : artist.name === 'WayV' ? (
-                  <div className="text-white text-center">
-                    <div className="w-16 h-16 border-2 border-white rounded-full flex items-center justify-center">
-                      <span className="text-2xl font-bold">V</span>
-                    </div>
-                    <div className="text-xs mt-1">WayV</div>
-                  </div>
-                ) : artist.name === 'NCT DREAM' ? (
-                  <div className="text-white text-center">
-                    <div className="text-lg font-bold">NCT</div>
-                    <div className="text-lg font-bold">DREAM</div>
-                  </div>
-                ) : artist.name === 'SHINee' ? (
-                  <div className="text-white text-center">
-                    <div className="text-lg font-bold italic">SHINee</div>
-                  </div>
-                ) : artist.name === 'NCT WISH' ? (
-                  <div className="text-center">
-                    <div className="text-blue-400 text-lg font-bold">NCT</div>
-                    <div className="text-blue-400 text-lg font-bold">WISH</div>
-                    <div className="text-pink-400 text-xs">★</div>
-                  </div>
-                ) : (
-                  <div
-                    className={`${artist.textColor} text-xl font-bold text-center`}
-                  >
-                    {artist.logo}
-                  </div>
-                )}
+              <div className="relative w-60 h-60">
+                <Image
+                  src={artist.image}
+                  fill={true}
+                  sizes="3"
+                  alt="img"
+                  className="m-auto rounded-2xl border-2"
+                  style={{ objectFit: 'cover' }}
+                />
               </div>
-              <div className="mt-3 text-center">
-                <h3 className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                  {artist.name}
-                </h3>
-              </div>
+              <p>{artist.name}</p>
             </Link>
           ))}
         </div>
-
-        {filteredArtists.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">
-              No artists found matching "{searchQuery}"
-            </p>
-          </div>
-        )}
       </div>
     </div>
   )
 }
-
-export default ArtistShowcase
