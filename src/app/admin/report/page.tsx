@@ -1,7 +1,7 @@
 'use client'
 const ReportsAnalytics = () => {
   return (
-    <div className=''>Reports & Analytics</div>
+    <div className=''></div>
   )
 }
 

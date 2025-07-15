@@ -1,6 +1,6 @@
 const PaymentMethod = () => {
   return (
-    <div>Payment Method</div>
+    <div></div>
   )
 }
 

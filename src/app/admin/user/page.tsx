@@ -1,6 +1,6 @@
 const UserManagement = () => {
   return (
-    <div className=''>User Management</div>
+    <div className=''></div>
   )
 }
 

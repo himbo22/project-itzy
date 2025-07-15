@@ -1,6 +1,6 @@
 const AnswerProductQuestion = () => {
   return (
-    <div className=''>Answer Product Question</div>
+    <div className=''></div>
   )
 }
 
