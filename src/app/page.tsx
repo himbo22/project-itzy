@@ -9,22 +9,27 @@ import { Header } from '@/components/partials/header'
 import { useState } from 'react'
 
 export default function Home() {
-  const [section, setSection] = useState<'home' | 'shop'>('home')
-
   return (
     <div>
-      <Header section={section} onSectionChange={setSection} />
-      {section === 'home' ? (
+      <Header />
+      {/* <Header section={section} onSectionChange={setSection} /> 
+        {section === 'home' ? (
         <div>
           <HomeCarousel />
           <ArtistGrid />
           <HomeCart />
         </div>
-      ) : (
+      
+    ) : (
         <div className="mt-3">
           <Shop headerText="ITZY's products" />
         </div>
-      )}
+      )} */}
+      <div>
+        <HomeCarousel />
+        <ArtistGrid />
+        <HomeCart />
+      </div>
       <Footer />
     </div>
   )

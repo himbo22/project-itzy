@@ -96,7 +96,8 @@ export default function ArtistGrid() {
           Meet your artist
         </h2>
         <Link
-          href="/artist"
+          href={'/artist'}
+          prefetch={true}
           className="text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center gap-1 text-sm sm:text-base"
         >
           More
@@ -122,6 +123,7 @@ export default function ArtistGrid() {
           <Link
             key={artist.id}
             href={`/artist/${artist.id}`}
+            prefetch={true}
             className="group flex flex-col items-center space-y-2 sm:space-y-3 hover:scale-105 transition-transform duration-200"
           >
             {/* Artist Image/Icon */}

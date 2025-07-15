@@ -1,5 +1,12 @@
 export interface ApiResponse<T> {
-  data: T
-  status: string
+  results: T
+  isSuccess: boolean
   message: string
+}
+
+export interface ResponseWithPaging<T> {
+  data: T
+  total: number
+  page: number
+  totalPage: number
 }

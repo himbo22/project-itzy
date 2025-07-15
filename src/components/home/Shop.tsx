@@ -1,16 +1,68 @@
-import React, { useState } from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
+import { ApiResponse, ResponseWithPaging } from '@/types'
+import { Button } from '@/components/ui/button'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { getSmartPagination } from '@/utils/helper'
+import { useSearchParams, useRouter } from 'next/navigation'
 
 interface props {
   headerText: string
   attribute?: string
 }
 
+interface FilterState {
+  page: number
+}
+
+const initialFilter: FilterState = {
+  page: 1,
+}
+
+async function fetchProducts(
+  page: number
+): Promise<ApiResponse<ResponseWithPaging<ProductDTO[]>>> {
+  const res = await fetch(`http://localhost:3000/api/products?page=${page}`)
+  if (!res.ok) {
+    throw new Error('Failed to fetch products')
+  }
+  return res.json()
+}
+
 export default function Shop({ headerText, attribute }: props) {
   const [activeTab, setActiveTab] = useState('All')
-  const [currentPage, setCurrentPage] = useState(1)
-  const productsPerPage = 16
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const page = parseInt(searchParams.get('page') || '1')
+  const { isLoading, isError, error, data, isFetching, isPlaceholderData } =
+    useQuery({
+      queryKey: ['products', page],
+      queryFn: () => fetchProducts(page),
+      placeholderData: keepPreviousData,
+    })
+
+  if (isLoading) {
+    return <div className="mt-20">standing by...</div>
+  }
+
+  if (error) {
+    return <div className="mt-20">error...</div>
+  }
+
+  if (!data?.results.data) {
+    return <div className="mt-20">error...</div>
+  }
 
   const tabs = [
     'All',
@@ -22,192 +74,14 @@ export default function Shop({ headerText, attribute }: props) {
     'PHOTOBOOK',
     'MD',
   ]
+  const products = data.results.data
+  const pagination = data.results
 
-  const products = [
-    {
-      id: 1,
-      title: 'ARiC 3rd Mini Album [HOPE] (PLATFORM ver.)',
-      artist: 'ARiC',
-      price: 9.97,
-      originalPrice: 12.46,
-      discount: 20,
-      tag: 'PRE-ORDER',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-green-700',
-    },
-    {
-      id: 2,
-      title: 'ARiC (아릭) 3rd Mini Album [HOPE] (Hope Ver.)',
-      artist: 'ARiC',
-      price: 15.58,
-      originalPrice: 19.48,
-      discount: 20,
-      tag: 'PRE-ORDER',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-gray-900',
-    },
-    {
-      id: 3,
-      title: 'Kai Single [Where In The World] (NEMO)',
-      artist: 'Kai',
-      price: 12.49,
-      originalPrice: 15.61,
-      discount: 20,
-      tag: 'PRE-ORDER',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-gray-100',
-    },
-    {
-      id: 4,
-      title: 'NCT WISH [DICON VOLUME N°29 NCT WISH : TO WISH, TO WAIT]',
-      artist: 'NCT WISH',
-      price: 33.25,
-      tag: 'PRE-ORDER',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-white',
-    },
-    {
-      id: 5,
-      title: 'ILLIT 1st Mini Album [SUPER REAL ME] (Jewel Ver.)',
-      artist: 'ILLIT',
-      price: 10.99,
-      originalPrice: 13.74,
-      discount: 20,
-      tag: 'PRE-ORDER',
-      isNew: false,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-pink-200',
-    },
-    {
-      id: 6,
-      title: 'LE SSERAFIM [UNFORGIVEN] (Weverse Ver.)',
-      artist: 'LE SSERAFIM',
-      price: 11.5,
-      originalPrice: 14.38,
-      discount: 20,
-      tag: 'PRE-ORDER',
-      isNew: false,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-red-200',
-    },
-    {
-      id: 7,
-      title: 'IVE 2nd EP [I’VE MINE] (Mine Ver.)',
-      artist: 'IVE',
-      price: 17.99,
-      originalPrice: 22.49,
-      discount: 20,
-      tag: 'BEST',
-      isNew: false,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-yellow-100',
-    },
-    {
-      id: 8,
-      title: 'NMIXX [Expérgo] (Limited Edition)',
-      artist: 'NMIXX',
-      price: 18.45,
-      tag: 'BEST',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-blue-100',
-    },
-    {
-      id: 9,
-      title: 'ITZY Light Ring (Official Light Stick Ver.2)',
-      artist: 'ITZY',
-      price: 35.0,
-      tag: 'MD',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-orange-200',
-    },
-    {
-      id: 10,
-      title: 'NCT 127 [Fact Check] (Digipack Ver.)',
-      artist: 'NCT 127',
-      price: 9.99,
-      originalPrice: 12.49,
-      discount: 20,
-      tag: 'PRE-ORDER',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-green-100',
-    },
-    {
-      id: 11,
-      title: 'TWICE 5th World Tour [READY TO BE] Photobook',
-      artist: 'TWICE',
-      price: 27.9,
-      tag: 'PHOTBOOK',
-      isNew: false,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-purple-100',
-    },
-    {
-      id: 12,
-      title: 'Stray Kids [ROCK-STAR] (Limited Ver.)',
-      artist: 'Stray Kids',
-      price: 21.5,
-      originalPrice: 26.88,
-      discount: 20,
-      tag: 'BEST',
-      isNew: false,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-gray-200',
-    },
-    {
-      id: 13,
-      title: 'SEVENTEEN 11th Mini Album [SEVENTEENTH HEAVEN] (AM 5:26 Ver.)',
-      artist: 'SEVENTEEN',
-      price: 18.99,
-      tag: 'PRE-ORDER',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-teal-100',
-    },
-    {
-      id: 14,
-      title: 'Red Velvet Official Keyring (Logo Ver.)',
-      artist: 'Red Velvet',
-      price: 12.0,
-      tag: 'MD',
-      isNew: false,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-pink-100',
-    },
-    {
-      id: 15,
-      title: 'aespa 2024 Season’s Greetings [MY Drama]',
-      artist: 'aespa',
-      price: 38.75,
-      tag: 'MD',
-      isNew: false,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-cyan-100',
-    },
-    {
-      id: 16,
-      title: 'TXT [The Name Chapter: FREEFALL] (Weverse Ver.)',
-      artist: 'TXT',
-      price: 11.25,
-      originalPrice: 14.06,
-      discount: 20,
-      tag: 'PRE-ORDER',
-      isNew: true,
-      image: '/api/placeholder/300/300',
-      bgColor: 'bg-indigo-100',
-    },
-  ]
-
-  const totalPages = Math.ceil(products.length / productsPerPage)
-  const startIndex = (currentPage - 1) * productsPerPage
-  const endIndex = startIndex + productsPerPage
-  const currentProducts = products.slice(startIndex, endIndex)
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', newPage.toString())
+    router.push(`?${params.toString()}`)
+  }
 
   return (
     <div className={`max-w-7xl mx-auto ${attribute ?? ''}`}>
@@ -236,46 +110,40 @@ export default function Shop({ headerText, attribute }: props) {
 
       {/* Main Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {currentProducts.map((product) => (
+        {products.map((product) => (
           <Link
             href={`/product/${product.id}`}
             key={product.id}
+            prefetch={true}
             className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-105 duration-300"
           >
             {/* Product Image */}
-            <div
-              className={`relative h-64 ${product.bgColor} flex items-center justify-center`}
-            >
+            <div className={`relative h-64 flex items-center justify-center`}>
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                 <span className="text-gray-500 text-sm">Product Image</span>
               </div>
-              {product.isNew && (
-                <span className="absolute bottom-2 left-2 bg-black text-white text-xs px-2 py-1 rounded">
-                  NEW
-                </span>
-              )}
             </div>
 
             {/* Product Info */}
             <div className="p-4">
-              <div className="text-pink-500 text-xs font-medium mb-1">
-                {product.tag}
+              <div className="text-gray-600 text-sm mb-1">
+                {product.Artist.name}
               </div>
-              <div className="text-gray-600 text-sm mb-1">{product.artist}</div>
               <h3 className="text-sm font-medium text-gray-900 mb-3 line-clamp-2 leading-tight">
-                {product.title}
+                {product.name}
               </h3>
-
               <div className="flex items-center gap-2">
-                <span className="text-pink-500 font-bold">
-                  {product.discount}%
-                </span>
+                {product.discount && (
+                  <span className="text-pink-500 font-bold">
+                    {product.discount}%
+                  </span>
+                )}
                 <span className="text-lg font-bold text-gray-900">
-                  ${product.price}
+                  ${product.newPrice}
                 </span>
-                {product.originalPrice && (
+                {product.oldPrice !== product.newPrice && (
                   <span className="text-sm text-gray-500 line-through">
-                    ${product.originalPrice}
+                    ${product.oldPrice}
                   </span>
                 )}
               </div>
@@ -287,7 +155,7 @@ export default function Shop({ headerText, attribute }: props) {
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mt-12">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           {/* Results Info */}
-          <div className="text-sm text-gray-600">
+          {/* <div className="text-sm text-gray-600">
             Showing{' '}
             <span className="font-medium text-gray-900">{startIndex + 1}</span>{' '}
             to{' '}
@@ -297,75 +165,91 @@ export default function Shop({ headerText, attribute }: props) {
             of{' '}
             <span className="font-medium text-gray-900">{products.length}</span>{' '}
             products
-          </div>
+          </div> */}
 
           {/* Pagination Controls */}
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ${
-                currentPage === 1
-                  ? 'bg-gray-50 text-gray-300 cursor-not-allowed'
-                  : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 hover:text-gray-800'
-              }`}
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <div className="flex items-center gap-1 mx-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`w-10 h-10 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      currentPage === page
-                        ? 'bg-pink-500 text-white shadow-lg shadow-pink-500/25 transform scale-105'
-                        : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 hover:text-gray-900'
-                    }`}
-                  >
-                    {page}
-                  </button>
+          <Pagination className="space-x-2 mt-4">
+            {pagination.page && pagination.page > 1 && (
+              <PaginationPrevious
+                className="cursor-pointer"
+                onClick={() => {
+                  handlePageChange(pagination.page - 1)
+                }}
+              />
+            )}
+            <PaginationContent className="cursor-pointer">
+              {getSmartPagination(pagination.page, pagination.totalPage).map(
+                (item, index) => (
+                  <PaginationItem key={index}>
+                    {item === '...' ? (
+                      <span className="px-2 text-gray-400">...</span>
+                    ) : (
+                      <Button
+                        onClick={() => handlePageChange(item as number)}
+                        className={`px-3 py-1 hover:bg-black hover:text-white ${
+                          pagination.page === item
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-white text-black'
+                        }`}
+                      >
+                        {item}
+                      </Button>
+                    )}
+                  </PaginationItem>
                 )
               )}
-            </div>
-
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-              className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 ${
-                currentPage === totalPages
-                  ? 'bg-gray-50 text-gray-300 cursor-not-allowed'
-                  : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 hover:text-gray-800'
-              }`}
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+              {/* {pagination.totalPage &&
+                Array.from(
+                  { length: pagination.totalPage },
+                  (_, i) => i + 1
+                ).map((page) => (
+                  <PaginationItem key={page}>
+                    <Button
+                      onClick={() => {
+                        setPage(page)
+                      }}
+                      variant="secondary"
+                      className={`hover:bg-[#d5e0ed] text-muted-foreground ${
+                        pagination.page === page && 'bg-[#d5e0ed]'
+                      }`}
+                    >
+                      {page}
+                    </Button>
+                  </PaginationItem>
+                ))} */}
+            </PaginationContent>
+            {pagination && pagination.page < pagination.totalPage && (
+              <PaginationNext
+                className="cursor-pointer"
+                onClick={() => handlePageChange(pagination.page + 1)}
+              />
+            )}
+          </Pagination>
         </div>
         {/* Quick Navigation */}
         <div className="flex items-center gap-2 text-sm">
           <span className="text-gray-500">Go to page:</span>
           <select
-            value={currentPage}
-            onChange={(e) => setCurrentPage(Number(e.target.value))}
+            value={pagination.page}
+            onChange={(e) => handlePageChange(Number(e.target.value))}
             className="px-3 py-1 border border-gray-300 rounded-md text-gray-700 bg-white hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
           >
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <option key={page} value={page}>
-                {page}
-              </option>
-            ))}
+            {Array.from({ length: pagination.totalPage }, (_, i) => i + 1).map(
+              (page) => (
+                <option key={page} value={page}>
+                  {page}
+                </option>
+              )
+            )}
           </select>
         </div>
         {/* Progress Bar */}
         <div className="mt-4 w-full bg-gray-200 rounded-full h-2">
           <div
             className="bg-gradient-to-r from-pink-500 to-pink-600 h-2 rounded-full transition-all duration-300 ease-out"
-            style={{ width: `${(currentPage / totalPages) * 100}%` }}
+            style={{
+              width: `${(pagination.page / pagination.totalPage) * 100}%`,
+            }}
           />
         </div>
       </div>
