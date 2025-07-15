@@ -79,6 +79,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'image-cdn.essentiallysports.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'tse2.mm.bing.net',
+      },
     ],
   },
 }

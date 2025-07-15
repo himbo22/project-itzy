@@ -28,7 +28,7 @@ export function Header({ section, onSectionChange }: props) {
   return (
     <header className="flex justify-between bg-white w-full h-15 fixed shadow top-0 left-0 right-0 z-50">
       <div className="flex w-1/2 justify-start items-center">
-        <Link href={'/'}>
+        <Link href={'/'} prefetch={true}>
           <Image src="/images/itzy.png" alt="logo" width={100} height={60} />
         </Link>
         {section ? (

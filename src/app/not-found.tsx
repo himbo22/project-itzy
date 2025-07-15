@@ -1,18 +1,18 @@
-export default function NotFoundPage() {
+import Link from 'next/link'
+
+export default function NotFound() {
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center">
-      <img
-        src="https://www.makestar.com/_nuxt/error-image.D0Ia4RFE.svg"
-        width={200}
-        alt="image"
-      />
-      <p>Page not found</p>
-      <a
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <h2 className="text-4xl font-bold mb-4">404 - Page Not Found</h2>
+      <p className="text-gray-600 mb-6">
+        The page you're looking for does not exist.
+      </p>
+      <Link
         href="/"
-        className="inline-block bg-pink-500 text-white font-bold py-3 px-8 rounded-xl hover:bg-pink-600 transition-colors my-3"
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
       >
-        Back to Home
-      </a>
+        Return Home
+      </Link>
     </div>
   )
 }

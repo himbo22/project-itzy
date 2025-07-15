@@ -47,9 +47,9 @@ export async function POST(request: NextRequest) {
     })
 
     const response: ApiResponse<string> = {
-      data: newUser.id,
-      status: 'success',
-      message: 'User created',
+      results: newUser.id,
+      isSuccess: true,
+      message: 'Login successful',
     }
 
     return NextResponse.json(response, { status: 201 })

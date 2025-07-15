@@ -22,13 +22,13 @@ export default function MemberGrid({ members }: props) {
       >
         {members.map((member) => (
           <div key={member.name} className="flex flex-col items-center mr-5">
-            <Image
-              src={member.image}
-              width={100}
-              height={100}
-              className="rounded-full object-cover w-[100px] h-[100px] border"
-              alt="image"
-            />
+            <div className="w-[100px] h-[100px] rounded-full overflow-hidden border">
+              <img
+                src={member.image}
+                className="w-full h-full object-cover"
+                alt="image"
+              />
+            </div>
             <span className="mt-1 text-sm font-medium text-gray-800">
               {member.name}
             </span>

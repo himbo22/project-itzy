@@ -30,6 +30,7 @@ interface props {
   onClose: () => void
   isOpen: boolean
   onOpenGallery: () => void
+  text: string
 }
 
 export const communityBody = z.object({
@@ -42,6 +43,7 @@ export default function CommunityInputModal({
   onClose,
   isOpen,
   onOpenGallery,
+  text,
 }: props) {
   const form = useForm<CommunityBodyType>({
     resolver: zodResolver(communityBody),
@@ -93,7 +95,7 @@ export default function CommunityInputModal({
                   <FormItem>
                     <FormControl>
                       <textarea
-                        placeholder="Write a comment in the community"
+                        placeholder={text}
                         {...field}
                         className="min-h-36 p-2 border-2"
                       />
