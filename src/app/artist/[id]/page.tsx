@@ -235,6 +235,7 @@ export default function page({ params }: { params: Promise<{ id: string }> }) {
               onOpenGallery={() => {
                 console.log('cac')
               }}
+              text="Write a comment in the community"
             />
           </>
         ) : (

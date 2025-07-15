@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
     })
 
     const response: ApiResponse<string> = {
-      data: token,
-      status: 'success',
+      results: token,
+      isSuccess: true,
       message: 'Login successful',
     }
 

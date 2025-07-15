@@ -74,6 +74,7 @@ export default function ArtistShowcase() {
             <Link
               href={`/artist/${artist.id}`}
               key={key}
+              prefetch={true}
               className="flex flex-col items-center hover:scale-115 transition-transform duration-200  py-1"
             >
               <div className="relative w-60 h-60">
