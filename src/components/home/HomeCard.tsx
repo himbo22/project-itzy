@@ -73,7 +73,7 @@ const HomeCart = () => {
   const [hovered, setHovered] = useState<number | null>(null)
 
   return (
-    <div className="max-w-6xl mx-auto mt-8">
+    <div className="max-w-6xl lg:mx-auto mt-8 mx-2">
       {/* Header */}
       <div className="flex items-center justify-between mb-6 sm:mb-8">
         <h2 className="text-lg sm:text-2xl font-bold text-gray-900">
