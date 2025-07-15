@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { getSmartPagination } from '@/utils/helper'
 import { useSearchParams, useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 interface props {
   headerText: string
@@ -84,7 +85,7 @@ export default function Shop({ headerText, attribute }: props) {
   }
 
   return (
-    <div className={`max-w-7xl mx-auto ${attribute ?? ''}`}>
+    <div className={`max-w-7xl lg:mx-auto mx-2 ${attribute ?? ''}`}>
       {/* Header */}
       <div className="flex items-center gap-2 mb-8">
         <h2 className="text-2xl font-bold text-gray-900">{headerText}</h2>
@@ -120,7 +121,13 @@ export default function Shop({ headerText, attribute }: props) {
             {/* Product Image */}
             <div className={`relative h-64 flex items-center justify-center`}>
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500 text-sm">Product Image</span>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={200}
+                  height={200}
+                  className="object-cover w-full h-full"
+                />
               </div>
             </div>
 
@@ -133,7 +140,7 @@ export default function Shop({ headerText, attribute }: props) {
                 {product.name}
               </h3>
               <div className="flex items-center gap-2">
-                {product.discount && (
+                {product.discount != 0 && (
                   <span className="text-pink-500 font-bold">
                     {product.discount}%
                   </span>
