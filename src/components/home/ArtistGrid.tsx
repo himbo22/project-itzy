@@ -89,7 +89,7 @@ const artists = [
 
 export default function ArtistGrid() {
   return (
-    <div className="bg-white rounded-3xl p-4 sm:p-8 shadow-sm border border-gray-400 max-w-6xl mx-auto mt-6">
+    <div className="bg-white rounded-3xl p-4 sm:p-8 shadow-sm border border-gray-400 max-w-6xl lg:mx-auto mt-6 px-6 mx-2">
       {/* Header */}
       <div className="flex items-center justify-between mb-6 sm:mb-8">
         <h2 className="text-lg sm:text-2xl font-bold text-gray-900">
