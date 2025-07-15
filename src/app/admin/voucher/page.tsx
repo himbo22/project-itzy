@@ -2,7 +2,7 @@
 
 const Voucher = () => {
   return (
-    <div className=''>Voucher</div>
+    <div className=''></div>
   )
 }
 

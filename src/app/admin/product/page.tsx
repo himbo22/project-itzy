@@ -1,7 +1,7 @@
 'use client'
 const product = () => {
   return (
-    <div >Product</div>
+    <div ></div>
   )
 }
 

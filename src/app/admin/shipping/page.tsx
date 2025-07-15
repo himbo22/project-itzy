@@ -2,7 +2,7 @@
 
 const ShippingMethod = () => {
   return (
-    <div className='' >Shipping Method</div>
+    <div className='' ></div>
   )
 }
 

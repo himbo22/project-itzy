@@ -1,6 +1,6 @@
 const ReviewProductView = () => {
   return (
-    <div className=''>Review Product (view)</div>
+    <div className=''></div>
   )
 }
 
