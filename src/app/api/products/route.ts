@@ -5,12 +5,23 @@ import { getSearchParams } from '@/libs/utils'
 import { ApiResponse, ResponseWithPaging } from '@/types'
 
 export async function GET(request: NextRequest) {
-  const { page, limit } = getSearchParams(request)
+  const { page, limit, category } = getSearchParams(request)
 
   const skip = ((page ?? 1) - 1) * (limit ?? 16)
 
+  const where = {
+    isDeleted: false,
+    ...(category &&
+      category !== 'All' && {
+        Category: {
+          name: category,
+        },
+      }),
+  }
+
   const [productsRaw, total] = await Promise.all([
     prisma.product.findMany({
+      where,
       skip,
       take: limit,
       select: {
@@ -27,9 +38,14 @@ export async function GET(request: NextRequest) {
             name: true,
           },
         },
+        Category: {
+          select: {
+            name: true,
+          },
+        },
       },
     }),
-    prisma.product.count(),
+    prisma.product.count({ where }),
   ])
 
   const products: ProductDTO[] = productsRaw.map((p) => ({

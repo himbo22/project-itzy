@@ -21,6 +21,7 @@ interface ProductDTO {
   discount?: number
   isDeleted: boolean
   Artist: Artist
+  Category: Category
 }
 
 interface Artist {
