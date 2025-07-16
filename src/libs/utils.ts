@@ -28,6 +28,7 @@ export function getSearchParams(
   const searchParams = request.nextUrl.searchParams
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '16')
+  const category = searchParams.get('category') || ''
 
   let priceRange
   const priceRangeParam = searchParams.get('priceRange')
@@ -42,6 +43,7 @@ export function getSearchParams(
   return {
     page,
     limit,
+    category,
   }
 }
 

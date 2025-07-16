@@ -32,9 +32,15 @@ const initialFilter: FilterState = {
 }
 
 async function fetchProducts(
-  page: number
+  page: number,
+  category?: string
 ): Promise<ApiResponse<ResponseWithPaging<ProductDTO[]>>> {
-  const res = await fetch(`http://localhost:3000/api/products?page=${page}`)
+  const params = new URLSearchParams({
+    page: page.toString(),
+    ...(category && category !== 'All' && category !== 'BEST' && { category }),
+  })
+
+  const res = await fetch(`http://localhost:3000/api/products?${params}`)
   if (!res.ok) {
     throw new Error('Failed to fetch products')
   }
@@ -48,8 +54,8 @@ export default function Shop({ headerText, attribute }: props) {
   const page = parseInt(searchParams.get('page') || '1')
   const { isLoading, isError, error, data, isFetching, isPlaceholderData } =
     useQuery({
-      queryKey: ['products', page],
-      queryFn: () => fetchProducts(page),
+      queryKey: ['products', page, activeTab],
+      queryFn: () => fetchProducts(page, activeTab),
       placeholderData: keepPreviousData,
     })
 
@@ -68,7 +74,7 @@ export default function Shop({ headerText, attribute }: props) {
   const tabs = [
     'All',
     'BEST',
-    'ALBUM',
+    'Albums',
     'Drama/Movie',
     'DVD',
     'Light Stick',
@@ -84,6 +90,14 @@ export default function Shop({ headerText, attribute }: props) {
     router.push(`?${params.toString()}`)
   }
 
+  const handleTabChange = (tab: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('category', tab)
+    params.set('page', '1') // Reset to first page when changing category
+    router.push(`?${params.toString()}`)
+    setActiveTab(tab)
+  }
+
   return (
     <div className={`max-w-7xl lg:mx-auto mx-2 ${attribute ?? ''}`}>
       {/* Header */}
@@ -97,7 +111,7 @@ export default function Shop({ headerText, attribute }: props) {
         {tabs.map((tab) => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => handleTabChange(tab)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               activeTab === tab
                 ? 'bg-pink-500 text-white'
@@ -116,8 +130,11 @@ export default function Shop({ headerText, attribute }: props) {
             href={`/product/${product.id}`}
             key={product.id}
             prefetch={true}
-            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-105 duration-300"
+            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-105 duration-300 relative border-1 border-gray-200"
           >
+            <span className="bg-gray-100 rounded-full text-sm border-1 px-2 mb-3 text-gray-600 absolute top-2 right-2 z-50">
+              {product.Category.name}
+            </span>
             {/* Product Image */}
             <div className={`relative h-64 flex items-center justify-center`}>
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -130,7 +147,6 @@ export default function Shop({ headerText, attribute }: props) {
                 />
               </div>
             </div>
-
             {/* Product Info */}
             <div className="p-4">
               <div className="text-gray-600 text-sm mb-1">
