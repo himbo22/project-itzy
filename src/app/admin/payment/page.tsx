@@ -4,11 +4,11 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 const PaymentMethod = () => {
   const [data, setData] = useState([
-    { id: "PM001", customer: "Credit", state: "Tran Xuan Dinh", date: "2025-07-08", status: "Paid", address: "Payment completed" },
-    { id: "PM002", customer: "Bank Transfer", state: "Nguyen Quoc Hoang", date: "2025-07-08", status: "Pending", address: "Pending confirmation" },
-    { id: "PM003", customer: "Cash on Delivery (COD)", state: "Ngo Binh Phuong Nguyen", date: "2025-07-07", status: "Unpaid", address: "Cash on Delivery" },
-    { id: "PM004", customer: "E-Wallet (Momo, PayPal)", state: "Do Quoc Huy", date: "2025-06-08", status: "Paid", address: "Digital wallet" },
-    { id: "PM005", customer: "Cash on Delivery (COD)", state: "Phan Gia Dat", date: "2025-07-16", status: "Unpaid", address: "Cash on Delivery" },
+    { id: "PM001", state: "Tran Xuan Dinh" },
+    { id: "PM002", state: "Nguyen Quoc Hoang" },
+    { id: "PM003", state: "Ngo Binh Phuong Nguyen" },
+    { id: "PM004", state: "Do Quoc Huy" },
+    { id: "PM005", state: "Phan Gia Dat" },
   ]);
 
   const handleUpdate = (id: string) => {
@@ -34,36 +34,28 @@ const PaymentMethod = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-3 text-center">ID</th>
-              <th className="border p-3 text-center">Payment Method</th>
               <th className="border p-3 text-center">Name</th>
-              <th className="border p-3 text-center">Payment Date</th>
-              <th className="border p-3 text-center">Status</th>
-              <th className="border p-3 text-center">Notes</th>
-              <th className="border p-3 text-center">Action</th>
+              <th className="border p-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {data.map((order) => (
               <tr key={order.id}>
                 <td className="border p-3 text-center">{order.id}</td>
-                <td className="border p-3 text-center">{order.customer}</td>
                 <td className="border p-3 text-center">{order.state}</td>
-                <td className="border p-3 text-center">{order.date}</td>
-                <td className="border p-3 text-center">{order.status}</td>
-                <td className="border p-3 text-center">{order.address}</td>
                 <td className="border p-3 text-center">
                   <div className="flex justify-center gap-2">
                     <button
                       onClick={() => handleUpdate(order.id)}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                     >
-                      Edit
+                      Suspend
                     </button>
                     <button
                       onClick={() => handleDelete(order.id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     >
-                      Delete
+                      Unsuspend
                     </button>
                   </div>
                 </td>

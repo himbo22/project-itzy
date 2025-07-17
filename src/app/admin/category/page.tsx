@@ -6,11 +6,11 @@ const category = () => {
   const [data, setData] = useState([
 
 
-    { id: "CT001", category: "Stage Outfits", date: "2025-07-16", status: "Active", address: "Seoul, Korea" },
-    { id: "CT002", category: "Airport Fashion", date: "2025-07-16", status: "Active", address: "Incheon Airport, Korea" },
-    { id: "CT003", category: "MV Costumes", date: "2025-07-16", status: "Active", address: "JYP Entertainment, Seoul" },
-    { id: "CT004", category: "Photoshoot Outfits", date: "2025-07-16", status: "Active", address: "Studio ITZY, Korea" },
-    { id: "CT005", category: "Fanmeeting Fashion", date: "2025-07-16", status: "Active", address: "Olympic Hall, Seoul" },
+    { id: "CT001", name: "Xabi Alonso" },
+    { id: "CT002", name: "Tony Kroos" },
+    { id: "CT003", name: "Kilian Mbape" },
+    { id: "CT004", name: "Jude Bellingham" },
+    { id: "CT005", name: "Nguyen Cong Phuong" },
   ]);
   const handleUpdate = (id: string) => {
     alert(`Bạn đang sửa: ${id}`);
@@ -43,21 +43,15 @@ const category = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-3 text-center">ID</th>
-              <th className="border p-3 text-center">Category</th>
-              <th className="border p-3 text-center">Date</th>
-              <th className="border p-3 text-center">Status</th>
-              <th className="border p-3 text-center">Address</th>
-              <th className="border p-3 text-center">Action</th>
+              <th className="border p-3 text-center">Name</th>
+              <th className="border p-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {data.map((order) => (
               <tr key={order.id}>
                 <td className="border p-3 text-center">{order.id}</td>
-                <td className="border p-3 text-center">{order.category}</td>
-                <td className="border p-3 text-center">{order.date}</td>
-                <td className="border p-3 text-center">{order.status}</td>
-                <td className="border p-3 text-center">{order.address}</td>
+                <td className="border p-3 text-center">{order.name}</td>
                 <td className="border p-3 text-center">
                   <div className="flex justify-center gap-2">
                     <button

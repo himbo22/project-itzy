@@ -28,17 +28,17 @@ const UserManagement = () => {
 
       {/* Bảng dữ liệu */}
       <div className="w-full max-w-6xl bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">USER MANAGEMENT</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">USER</h2>
         <table className="w-full border border-gray-300 border-collapse text-base">
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-3 text-center">ID</th>
-              <th className="border p-3 text-center">	Name</th>
-              <th className="border p-3 text-center">	Email</th>
+              <th className="border p-3 text-center">Name</th>
+              <th className="border p-3 text-center">Email</th>
               <th className="border p-3 text-center">Role</th>
-              <th className="border p-3 text-center">Status</th>
-              <th className="border p-3 text-center">Date Joined</th>
-              <th className="border p-3 text-center">Action</th>
+              <th className="border p-3 text-center">Is_Active</th>
+              <th className="border p-3 text-center">Updated</th>
+              <th className="border p-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -56,13 +56,13 @@ const UserManagement = () => {
                       onClick={() => handleUpdate(order.id)}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                     >
-                      Edit
+                      Suspend
                     </button>
                     <button
                       onClick={() => handleDelete(order.id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     >
-                      Delete
+                      Unsuspend
                     </button>
                   </div>
                 </td>

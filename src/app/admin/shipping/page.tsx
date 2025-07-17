@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 const ShippingMethod = () => {
   const [data, setData] = useState([
-    { id: "SP001", address: "T-Shirt", customer: "Free Shipping", state: "3", date: "Da Nang" },
-    { id: "SP002", address: "LightStick", customer: "Express Shipping", state: "5", date: "Da Nang" },
-    { id: "SP003", address: "Photobooth", customer: "Express Shipping", state: "1", date: "Ha Noi" },
-    { id: "SP004", address: "DVD", customer: "Free Shipping", state: "3", date: "Ho Chi Minh" },
+    { id: "SP001", address: "T-Shirt", customer: "Free Shipping", state: "$3", date: "In Transit " },
+    { id: "SP002", address: "LightStick", customer: "Express Shipping", state: "$5", date: "Delivered" },
+    { id: "SP003", address: "Photobooth", customer: "Express Shipping", state: "$1", date: "In Transit" },
+    { id: "SP004", address: "DVD", customer: "Free Shipping", state: "$3", date: "Delivered" },
   ]);
 
   const handleUpdate = (id: string) => {
@@ -32,11 +32,11 @@ const ShippingMethod = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-3 text-center">ID</th>
-              <th className="border p-3 text-center">Item Type</th>
-              <th className="border p-3 text-center">Delivery Options</th>
-              <th className="border p-3 text-center">Quantity</th>
-              <th className="border p-3 text-center">Address</th>
-              <th className="border p-3 text-center">Action</th>
+              <th className="border p-3 text-center">Name</th>
+              <th className="border p-3 text-center">Description</th>
+              <th className="border p-3 text-center">Base_fee</th>
+              <th className="border p-3 text-center">Is_Active</th>
+              <th className="border p-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -53,13 +53,13 @@ const ShippingMethod = () => {
                       onClick={() => handleUpdate(order.id)}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                     >
-                      Edit
+                      Suspend
                     </button>
                     <button
                       onClick={() => handleDelete(order.id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     >
-                      Delete
+                      Unsuspend
                     </button>
                   </div>
                 </td>

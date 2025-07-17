@@ -33,11 +33,11 @@ const ReportsAnalytics = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-3 text-center">ID</th>
-              <th className="border p-3 text-center">	Report Type</th>
-              <th className="border p-3 text-center">	Quantity</th>
+              <th className="border p-3 text-center">Report Type</th>
+              <th className="border p-3 text-center">Quantity</th>
               <th className="border p-3 text-center">Address</th>
               <th className="border p-3 text-center">Status</th>
-              <th className="border p-3 text-center">Action</th>
+              <th className="border p-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -54,13 +54,13 @@ const ReportsAnalytics = () => {
                       onClick={() => handleUpdate(order.id)}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                     >
-                      Edit
+                      Suspend
                     </button>
                     <button
                       onClick={() => handleDelete(order.id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     >
-                      Delete
+                      Unsuspend
                     </button>
                   </div>
                 </td>
