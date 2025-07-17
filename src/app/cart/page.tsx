@@ -92,29 +92,30 @@ export default function CartPage() {
   return (
     <div className="bg-white min-h-screen">
       <Header />
-      <main className="max-w-6xl mx-auto p-6 mt-24 flex space-x-6">
+      <main className="max-w-6xl mx-auto p-4 lg:p-6 mt-16 lg:mt-24 flex flex-col lg:flex-row lg:space-x-6 space-y-6 lg:space-y-0">
         <div className="flex-1">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 space-y-4 sm:space-y-0">
             <div>
-              <h1 className="text-3xl font-bold inline">Cart</h1>
-              <span className="ml-2 text-gray-500">
+              <h1 className="text-2xl lg:text-3xl font-bold inline">Cart</h1>
+              <span className="ml-2 text-gray-500 block sm:inline">
                 Total {cartItems.length} items
               </span>
-              <span className="ml-2 text-pink-500">
+              <span className="ml-0 sm:ml-2 text-pink-500 block sm:inline">
                 {selectedIds.length} items selected
               </span>
             </div>
             <button
               onClick={handleDeleteSelected}
-              className="flex items-center space-x-1 px-4 py-2 border border-gray-300 rounded-md disabled:opacity-50 cursor-pointer hover:bg-gray-100"
+              className="flex items-center justify-center space-x-1 px-4 py-2 border border-gray-300 rounded-md disabled:opacity-50 cursor-pointer hover:bg-gray-100 transition-colors w-full sm:w-auto"
               disabled={selectedIds.length === 0}
             >
-              🗑️ Delete
+              🗑️ <span className="ml-1">Delete</span>
             </button>
           </div>
 
           <div className="border rounded-lg overflow-hidden">
-            <div className="flex items-center bg-gray-100 px-4 py-2 font-semibold text-gray-600">
+            {/* Desktop Header */}
+            <div className="hidden lg:flex items-center bg-gray-100 px-4 py-2 font-semibold text-gray-600">
               <div className="w-12 flex justify-center">
                 <input
                   type="checkbox"
@@ -127,81 +128,159 @@ export default function CartPage() {
               <div className="w-32 text-right">Price</div>
             </div>
 
+            {/* Mobile Header */}
+            <div className="lg:hidden flex items-center bg-gray-100 px-4 py-2 font-semibold text-gray-600">
+              <div className="w-12 flex justify-center">
+                <input
+                  type="checkbox"
+                  checked={selectedIds.length === cartItems.length}
+                  onChange={(e) => handleSelectAll(e.target.checked)}
+                />
+              </div>
+              <div className="flex-1">Select All</div>
+            </div>
+
             {cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center border-t px-4 py-4"
-              >
-                <div className="w-12 flex justify-center">
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.includes(item.id)}
-                    onChange={(e) =>
-                      handleSelectItem(item.id, e.target.checked)
-                    }
-                  />
-                </div>
-                <div className="flex-1 flex items-center space-x-4">
-                  <Image
-                    src={item.image}
-                    alt="ITZY logo"
-                    width={40}
-                    height={40}
-                    className="rounded"
-                  />
-                  <div>
-                    <p className="font-semibold">{item.name}</p>
-                    <p className="text-gray-500 text-sm">
-                      Option: {item.option}
-                    </p>
+              <div key={item.id} className="border-t">
+                {/* Desktop Layout */}
+                <div className="hidden lg:flex items-center px-4 py-4">
+                  <div className="w-12 flex justify-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(item.id)}
+                      onChange={(e) =>
+                        handleSelectItem(item.id, e.target.checked)
+                      }
+                    />
+                  </div>
+                  <div className="flex-1 flex items-center space-x-4">
+                    <Image
+                      src={item.image}
+                      alt="ITZY logo"
+                      width={40}
+                      height={40}
+                      className="rounded"
+                    />
+                    <div>
+                      <p className="font-semibold">{item.name}</p>
+                      <p className="text-gray-500 text-sm">
+                        Option: {item.option}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="w-40 flex justify-center items-center space-x-2">
+                    <button
+                      onClick={() => handleDecreaseQuantity(item.id)}
+                      className="w-8 h-8 border rounded-full hover:bg-gray-100 transition-colors"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      value={item.quantity}
+                      min="1"
+                      onChange={(e) =>
+                        handleQuantityChange(item.id, e.target.value)
+                      }
+                      className="w-16 text-center border rounded-md"
+                    />
+                    <button
+                      onClick={() => handleIncreaseQuantity(item.id)}
+                      className="w-8 h-8 border rounded-full hover:bg-gray-100 transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="w-32 flex justify-end items-center space-x-4">
+                    <span className="font-semibold">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </span>
                   </div>
                 </div>
-                <div className="w-40 flex justify-center items-center space-x-2">
-                  <button
-                    onClick={() => handleDecreaseQuantity(item.id)}
-                    className="w-8 h-8 border rounded-full"
-                  >
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    value={item.quantity}
-                    min="1"
-                    onChange={(e) =>
-                      handleQuantityChange(item.id, e.target.value)
-                    }
-                    className="w-16 text-center border rounded-md"
-                  />
-                  <button
-                    onClick={() => handleIncreaseQuantity(item.id)}
-                    className="w-8 h-8 border rounded-full"
-                  >
-                    +
-                  </button>
-                </div>
-                <div className="w-32 flex justify-end items-center space-x-4">
-                  <span className="font-semibold">
-                    ${(item.price * item.quantity).toFixed(2)}
-                  </span>
+
+                {/* Mobile Layout */}
+                <div className="lg:hidden px-4 py-4">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 mt-1">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(item.id)}
+                        onChange={(e) =>
+                          handleSelectItem(item.id, e.target.checked)
+                        }
+                      />
+                    </div>
+                    <div className="flex-shrink-0">
+                      <Image
+                        src={item.image}
+                        alt="ITZY logo"
+                        width={60}
+                        height={60}
+                        className="rounded"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm sm:text-base truncate">
+                        {item.name}
+                      </p>
+                      <p className="text-gray-500 text-xs sm:text-sm mb-3">
+                        Option: {item.option}
+                      </p>
+
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <button
+                            onClick={() => handleDecreaseQuantity(item.id)}
+                            className="w-7 h-7 border rounded-full hover:bg-gray-100 transition-colors text-sm"
+                          >
+                            -
+                          </button>
+                          <input
+                            type="number"
+                            value={item.quantity}
+                            min="1"
+                            onChange={(e) =>
+                              handleQuantityChange(item.id, e.target.value)
+                            }
+                            className="w-12 text-center border rounded-md text-sm"
+                          />
+                          <button
+                            onClick={() => handleIncreaseQuantity(item.id)}
+                            className="w-7 h-7 border rounded-full hover:bg-gray-100 transition-colors text-sm"
+                          >
+                            +
+                          </button>
+                        </div>
+                        <span className="font-semibold text-sm sm:text-base">
+                          ${(item.price * item.quantity).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="w-96 h-fit border rounded-lg p-8 self-start">
-          <h3 className="text-xl font-semibold mb-6">Order History</h3>
+        {/* Order Summary - Mobile: Full width, Desktop: Sidebar */}
+        <div className="w-full lg:w-96 border rounded-lg p-4 lg:p-8 lg:h-fit lg:self-start">
+          <h3 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6">
+            Order Summary
+          </h3>
           {selectedIds.length > 0 && (
-            <div className="flex justify-between mb-6">
-              <span className="font-semibold text-lg">Total price</span>
-              <span className="font-bold text-2xl">
+            <div className="flex justify-between mb-4 lg:mb-6">
+              <span className="font-semibold text-base lg:text-lg">
+                Total price
+              </span>
+              <span className="font-bold text-xl lg:text-2xl">
                 ${totalPrice.toFixed(2)}
               </span>
             </div>
           )}
           <button
             disabled={selectedIds.length === 0}
-            className={`w-full  ${
+            className={`w-full transition-colors ${
               selectedIds.length > 0
                 ? 'bg-pink-400 hover:bg-pink-500 cursor-pointer'
                 : 'bg-gray-300'
