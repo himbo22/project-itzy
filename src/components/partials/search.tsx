@@ -1,6 +1,8 @@
 import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
+
 import { useRouter } from 'next/navigation'
+
 interface props {
   isOpen: boolean
   onClose: () => void
