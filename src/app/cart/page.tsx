@@ -91,7 +91,7 @@ export default function CartPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      <Header section="shop" />
+      <Header />
       <main className="max-w-6xl mx-auto p-6 mt-24 flex space-x-6">
         <div className="flex-1">
           <div className="flex justify-between items-center mb-6">
