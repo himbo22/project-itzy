@@ -1,13 +1,14 @@
 'use client'
-import Link from "next/link";
-import Image from "next/image";
-import Menu from "@/components/Menu";
-import Menucc from "@/components/Menu";
-import AdminHeader from "@/components/AdminHeader";
-import LogOut from "@/components/LogOut";
+import Link from 'next/link'
+import Image from 'next/image'
+import Menu from '@/components/Menu'
+import AdminHeader from '@/components/AdminHeader'
+
 export default function MainLayout({
   children,
-}: { children: React.ReactNode }) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <div className="h-screen flex">
       {/* Navbar */}
@@ -21,7 +22,7 @@ export default function MainLayout({
             height={50}
           />
         </Link>
-        <Menucc />
+        <Menu />
       </div>
       {/* Header */}
       <AdminHeader />
@@ -33,5 +34,5 @@ export default function MainLayout({
         {children}
       </div>
     </div>
-  );
+  )
 }

@@ -1,32 +1,32 @@
 'use client'
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import React, { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { Button } from '@/components/ui/button'
 const category = () => {
   const [data, setData] = useState([
-
-
-    { id: "CT001", name: "Xabi Alonso" },
-    { id: "CT002", name: "Tony Kroos" },
-    { id: "CT003", name: "Kilian Mbape" },
-    { id: "CT004", name: "Jude Bellingham" },
-    { id: "CT005", name: "Nguyen Cong Phuong" },
-  ]);
+    { id: '1', name: 'Light Stick' },
+    { id: '2', name: 'Albums' },
+    { id: '3', name: 'MD' },
+    { id: '4', name: 'DVD' },
+    { id: '5', name: 'Merchandise' },
+  ])
   const handleUpdate = (id: string) => {
-    alert(`Bạn đang sửa: ${id}`);
-    const newName = prompt("Nhập tên mới:");
+    alert(`Bạn đang sửa: ${id}`)
+    const newName = prompt('Nhập tên mới:')
     if (newName) {
       setData((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, customer: newName } : item))
-      );
+        prev.map((item) =>
+          item.id === id ? { ...item, customer: newName } : item
+        )
+      )
     }
-  };
+  }
 
   const handleDelete = (id: string) => {
     if (confirm(`Xác nhận xoá ${id}?`)) {
-      setData((prev) => prev.filter((item) => item.id !== id));
+      setData((prev) => prev.filter((item) => item.id !== id))
     }
-  };
+  }
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -81,7 +81,7 @@ const category = () => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default category

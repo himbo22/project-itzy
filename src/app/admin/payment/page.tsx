@@ -1,23 +1,21 @@
 'use client'
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import React, { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { Button } from '@/components/ui/button'
 const PaymentMethod = () => {
   const [data, setData] = useState([
-    { id: "PM001", state: "Tran Xuan Dinh" },
-    { id: "PM002", state: "Nguyen Quoc Hoang" },
-    { id: "PM003", state: "Ngo Binh Phuong Nguyen" },
-    { id: "PM004", state: "Do Quoc Huy" },
-    { id: "PM005", state: "Phan Gia Dat" },
-  ]);
+    { id: '1', state: 'Cash on delivery' },
+    { id: '2', state: 'Credit card' },
+    { id: '3', state: 'PayPal' },
+  ])
 
   const handleUpdate = (id: string) => {
-    alert(`Bạn vừa bấm Edit với ID: ${id}`);
-  };
+    alert(`Bạn vừa bấm Edit với ID: ${id}`)
+  }
 
   const handleDelete = (id: string) => {
-    alert(`Bạn vừa bấm Delete với ID: ${id}`);
-  };
+    alert(`Bạn vừa bấm Delete với ID: ${id}`)
+  }
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -49,13 +47,13 @@ const PaymentMethod = () => {
                       onClick={() => handleUpdate(order.id)}
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                     >
-                      Suspend
+                      Edit
                     </button>
                     <button
                       onClick={() => handleDelete(order.id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     >
-                      Unsuspend
+                      Delete
                     </button>
                   </div>
                 </td>
@@ -72,7 +70,7 @@ const PaymentMethod = () => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default PaymentMethod
