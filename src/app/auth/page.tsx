@@ -3,12 +3,14 @@
 import AuthButton from '@/components/auth/AuthButton'
 import ModalSignIn from '@/components/modal/LoginModal'
 import ModalRegister from '@/components/modal/RegisterModal'
+import ModalResetPassword from '@/components/modal/ResetPasswordModal'
 import Image from 'next/image'
 import { useState } from 'react'
 
 function AuthPage() {
   const [openSignIn, setOpenSignIn] = useState<boolean>(false)
   const [openRegister, setOpenRegister] = useState<boolean>(false)
+  const [openResetPassword, setOpenResetPassword] = useState<boolean>(false)
 
   return (
     <main className="min-h-screen overflow-hidden flex flex-col md:flex-row">
@@ -35,6 +37,15 @@ function AuthPage() {
             onClick={() => setOpenSignIn(true)}
             content="Sign in"
           ></AuthButton>
+          <h1 className="text-1xl font-bold mt-5">
+            Forgot your password?{' '}
+            <span
+              className="text-blue-500 cursor-pointer"
+              onClick={() => setOpenResetPassword(true)}
+            >
+              Reset Password
+            </span>
+          </h1>
           <ModalSignIn
             onClose={() => {
               setOpenSignIn(false)
@@ -46,6 +57,12 @@ function AuthPage() {
               setOpenRegister(false)
             }}
             isOpen={openRegister}
+          />
+          <ModalResetPassword
+            onClose={() => {
+              setOpenResetPassword(false)
+            }}
+            isOpen={openResetPassword}
           />
         </div>
       </div>
