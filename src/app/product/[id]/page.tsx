@@ -119,7 +119,6 @@ export default function ProductDetailPage({
           )}
           {section === 'ask' && (
             <div className="w-full px-5 mt-5">
-              <p>Ask section content goes here.</p>
               <AskSpace
                 headerText={product.name + "'s asks"}
                 attribute="mt-5"
@@ -129,7 +128,6 @@ export default function ProductDetailPage({
           )}
           {section === 'review' && (
             <div className="w-full px-5 mt-5">
-              <p>Review section content goes here.</p>
               <ReviewSpace
                 headerText={product.name + "'s reviews"}
                 attribute="mt-5"
