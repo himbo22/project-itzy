@@ -35,7 +35,7 @@ export default function CheckoutPage() {
     paymentMethod: "",
   });
 
-  const isFormValid = Boolean(
+  const isAddressValid = Boolean(
     form.addressName &&
     form.country &&
     form.recipient &&
@@ -43,7 +43,11 @@ export default function CheckoutPage() {
     form.city &&
     form.region &&
     form.postalCode &&
-    form.phoneNumber &&
+    form.phoneNumber
+  );
+
+  const isFormValid = Boolean(
+    isAddressValid &&
     form.shippingMethod &&
     form.paymentMethod
   );
@@ -260,19 +264,8 @@ export default function CheckoutPage() {
                 <div className="pt-4">
                   <button
                     onClick={() => alert("Address applied!")}
-                    disabled={
-                      !(
-                        form.addressName &&
-                        form.country &&
-                        form.recipient &&
-                        form.searchAddress &&
-                        form.city &&
-                        form.region &&
-                        form.postalCode &&
-                        form.phoneNumber
-                      )
-                    }
-                    className={`w-full py-2 px-4 rounded text-white font-semibold transition ${isFormValid
+                    disabled={!isAddressValid}
+                    className={`w-full py-2 px-4 rounded text-white font-semibold transition ${isAddressValid
                       ? "bg-blue-600 hover:bg-blue-700 cursor-pointer"
                       : "bg-gray-300 cursor-not-allowed"
                       }`}
@@ -394,8 +387,8 @@ export default function CheckoutPage() {
             <button
               disabled={!isFormValid}
               className={`w-full mt-4 py-2 rounded-lg font-medium transition-colors ${isFormValid
-                ? "bg-pink-500 hover:bg-pink-400 text-white"
-                : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  ? "bg-pink-500 hover:bg-pink-400 text-white cursor-pointer"
+                  : "bg-gray-200 text-gray-500 cursor-not-allowed"
                 }`}
             >
               $10.31 Proceed to Payment
