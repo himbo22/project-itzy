@@ -4,6 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { hash } from 'crypto'
 import { ApiResponse } from '@/types'
+import { Redis } from '@upstash/redis'
+
+const redis = Redis.fromEnv()
 
 export async function POST(request: NextRequest) {
   try {
