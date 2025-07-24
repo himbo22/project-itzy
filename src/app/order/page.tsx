@@ -79,8 +79,9 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
-      <div className="pt-[64px] flex-1 container mx-auto px-4 py-6">
-        <div className="flex flex-col lg:flex-row lg:items-start lg:space-x-6">
+      <div className="pt-[80px] flex-1 container mx-auto px-4 py-6">
+        <div className="flex flex-col lg:flex-row lg:space-x-6
++                       h-[calc(100vh-80px)] overflow-y-auto">
           {/* LEFT SIDE */}
           <div className="w-full lg:w-2/3 space-y-6">
             {/* Delivery Address */}
@@ -300,45 +301,56 @@ export default function CheckoutPage() {
                 </div>
               )}
             </div>
-
-            {/* Country Modal */}
             {countryModalOpen && (
-              <div className="fixed inset-0 bg-black/20 backdrop-blur-md z-50 flex items-center justify-center">                <div className="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[80vh] overflow-auto">
-                <div className="p-4 border-b flex justify-between items-center">
-                  <h2 className="text-lg font-semibold">Select Country</h2>
-                  <button
-                    onClick={toggleCountryModal}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
-                    ✖
-                  </button>
-                </div>
-                <div className="p-4">
-                  <input
-                    type="text"
-                    placeholder="Search country..."
-                    value={searchCountry}
-                    onChange={(e) => setSearchCountry(e.target.value)}
-                    className="w-full border border-gray-300 rounded px-3 py-2 mb-4"
-                  />
-                  <ul className="space-y-2 max-h-96 overflow-y-auto">
-                    {filteredCountries.map((country: Country) => (
+              <div
+                className="fixed inset-0 z-50 bg-white/40 backdrop-blur-sm flex justify-center items-start pt-16"
+              >
+                <div
+                  className="bg-white w-full max-w-md rounded-xl overflow-auto shadow-lg"
+                  style={{ maxHeight: 'calc(100vh - 4rem)' }}
+                >
+                  {/* HEADER */}
+                  <div className="flex justify-between items-center px-4 py-3 border-b">
+                    <h2 className="text-lg font-semibold">Search Country/Region</h2>
+                    <button onClick={toggleCountryModal} className="text-gray-500 text-2xl leading-none">
+                      ✕
+                    </button>
+                  </div>
+
+                  {/* SEARCH BOX */}
+                  <div className="px-4 py-3 border-b">
+                    <input
+                      type="text"
+                      placeholder="Search for Country/Region"
+                      value={searchCountry}
+                      onChange={(e) => setSearchCountry(e.target.value)}
+                      className="w-full border border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+
+                  {/* COUNTRY LIST */}
+                  <ul className="px-4 py-2 space-y-1">
+                    {filteredCountries.map((country) => (
                       <li
                         key={country.name}
-                        onClick={() =>
-                          handleCountrySelect(country.name, country.dial_code)
-                        }
-                        className="cursor-pointer px-3 py-2 hover:bg-gray-100 border rounded"
+                        onClick={() => handleCountrySelect(country.name, country.dial_code)}
+                        className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded cursor-pointer"
                       >
-                        {country.name} ({country.dial_code})
+                        <input
+                          type="radio"
+                          checked={form.country === country.name}
+                          onChange={() => handleCountrySelect(country.name, country.dial_code)}
+                        />
+                        <span className="flex-1">
+                          {country.name}{' '}
+                          <span className="text-gray-500">({country.dial_code})</span>
+                        </span>
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
-              </div>
             )}
-
             {/* Select Carrier */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <button
@@ -412,7 +424,7 @@ export default function CheckoutPage() {
 
           {/* RIGHT SIDE */}
           <aside className="w-full lg:w-1/3 mt-6 lg:mt-0 self-start">
-            <div className="bg-white border border-gray-200 rounded-lg p-4 sticky top-24">
+            <div className="bg-white border border-gray-200 rounded-lg p-4">
               <div className="flex justify-between text-sm text-gray-600">
                 <span>Total Product Amount</span>
                 <span>$10.31</span>
