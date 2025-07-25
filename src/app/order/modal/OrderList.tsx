@@ -26,7 +26,7 @@ export function OrderList() {
                     </div>
                     <div className="flex items-start gap-4 mt-2">
                         <img
-                            src="/girls_will_be_girls.jpg"
+                            src="https://tse3.mm.bing.net/th/id/OIP.HJvzPaRvKmV7AvdMhvVIfgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
                             alt="ITZY Album"
                             className="w-20 h-20 rounded-lg object-cover"
                         />
