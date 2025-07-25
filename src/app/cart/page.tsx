@@ -280,11 +280,10 @@ export default function CartPage() {
           )}
           <button
             disabled={selectedIds.length === 0}
-            className={`w-full transition-colors ${
-              selectedIds.length > 0
+            className={`w-full transition-colors ${selectedIds.length > 0
                 ? 'bg-pink-400 hover:bg-pink-500 cursor-pointer'
                 : 'bg-gray-300'
-            } text-white font-bold py-3 rounded-md`}
+              } text-white font-bold py-3 rounded-md`}
           >
             Payment
           </button>

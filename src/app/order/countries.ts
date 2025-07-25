@@ -1,4 +1,9 @@
-export const countries = [
+export interface Country {
+    name: string;
+    dial_code: string;
+}
+
+export const countries: Country[] = [
     {
         "name": "Afghanistan",
         "dial_code": "+93"
