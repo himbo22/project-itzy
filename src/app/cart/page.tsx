@@ -2,8 +2,10 @@
 import { Header } from '@/components/partials/header'
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 export default function CartPage() {
+  const router = useRouter()
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -280,10 +282,12 @@ export default function CartPage() {
           )}
           <button
             disabled={selectedIds.length === 0}
-            className={`w-full transition-colors ${selectedIds.length > 0
+            className={`w-full transition-colors ${
+              selectedIds.length > 0
                 ? 'bg-pink-400 hover:bg-pink-500 cursor-pointer'
                 : 'bg-gray-300'
-              } text-white font-bold py-3 rounded-md`}
+            } text-white font-bold py-3 rounded-md`}
+            onClick={() => router.push('/order')}
           >
             Payment
           </button>
