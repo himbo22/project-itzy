@@ -26,4 +26,5 @@ export function Carrier({ shippingMethod, onChange }: CarrierProps) {
             )}
         </div>
     )
-}
+}  
+
