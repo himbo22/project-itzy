@@ -1,5 +1,5 @@
 'use client';
-
+import Footer from '@/components/partials/footer';
 import { Header } from '@/components/partials/header';
 import AvatarInfo from './modal/AvatarInfo';
 import EditButton from './modal/EditButton';
@@ -14,7 +14,10 @@ export default function AccountPage() {
             <Header />
             <div className="pt-28 flex justify-center">
                 <div className="bg-white w-full max-w-xl rounded-xl shadow-sm p-8 mt-4">
-                    <AvatarInfo />
+                    <AvatarInfo
+                        email="nguyen1@gmail.com"
+                        avatarUrl="https://mystarroom-public-cdn.makestar.com/public/image/profile/Gs67icKaEAAIoNl.jpg_2025-06-09_085853429669_thumb.jpeg" />
+
                     <EditButton />
                     <hr className="my-6" />
                     <div className="space-y-8 text-base">
@@ -25,6 +28,7 @@ export default function AccountPage() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }
